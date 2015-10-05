@@ -8,3 +8,11 @@ function DirectedWeightedEdge(__from, __to, __weight) {
     this.to = function () { return __to; }
     this.weight = function () { return __weight; }
 }
+
+function EdgeWeightedDigraph() {
+    var __vertices = [];
+    var __edges = {};
+
+    this.vertices = function () { return __vertices; }
+    this.edges = function () { return __edges; }
+}
