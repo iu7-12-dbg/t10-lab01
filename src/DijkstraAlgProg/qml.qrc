@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>math-funcs.js</file>
+        <file>graphs.js</file>
+    </qresource>
+</RCC>
