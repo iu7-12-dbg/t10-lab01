@@ -15,7 +15,7 @@ TestCase {
         compare(vertex.data(), data, "vertex.data() = data");
     }
 
-    function test_constructor_DirectedWeightedEdge_SuccessfulObjCreation() {
+    function test_constructor_DirectedWeightedEdgeCreation_SuccessfulObjCreation() {
         var from = 10, to = 20, weight = 100;
 
         var edge = new Graphs.DirectedWeightedEdge(from, to, weight);
@@ -23,6 +23,15 @@ TestCase {
         compare(edge.from(), from, "edge.from() = from");
         compare(edge.to(), to, "edge.to() = to");
         compare(edge.weight(), weight, "edge.weight() = weight");
+    }
+    
+    function test_constructor_EdgeWeightedDigraphCreation_EmptyGraph() {
+        var vertices = [], edges = {};
+
+        var graph = new Graphs.EdgeWeightedDigraph();
+
+        compare(graph.vertices(), vertices, "graph.vertices() = []");
+        compare(graph.edges(), edges, "graph.edges() = {]");
     }
 
 }
