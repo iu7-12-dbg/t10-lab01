@@ -20,4 +20,8 @@ function EdgeWeightedDigraph() {
         __vertices.push(vertex);
         __edges[vertex.id] = [];
     }
+
+    this.addEdge = function (edge) {
+        __edges[edge.from()].push(edge);
+    }
 }

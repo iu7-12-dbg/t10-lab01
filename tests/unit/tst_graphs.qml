@@ -51,5 +51,19 @@ TestCase {
         compare(comp, true, "digraph contains vertexA");
     }
 
+    function test_addEdge_AddingEdgeWithExistingVertex_Succes() {
+        var vertexA = new Graphs.Vertex(1, 1),
+            vertexB = new Graphs.Vertex(2, 2);
+        var edge = new Graphs.DirectedWeightedEdge(vertexA.id, vertexB.id, 100);
+        var digraph = new Graphs.EdgeWeightedDigraph();
+        digraph.addVertex(vertexA);
+        digraph.addVertex(vertexB);
+
+        digraph.addEdge(edge);
+
+        var index = digraph.edges()[edge.from()].indexOf(edge);
+        compare(index !== -1, true, "digraph.edges contain edge");
+    }
+
 }
 
