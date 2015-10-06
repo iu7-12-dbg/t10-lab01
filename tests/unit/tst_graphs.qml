@@ -24,7 +24,9 @@ TestCase {
         compare(edge.to(), to, "edge.to() = to");
         compare(edge.weight(), weight, "edge.weight() = weight");
     }
-    
+
+    // EdgeWeightedDigraph class methods
+
     function test_constructor_EdgeWeightedDigraphCreation_EmptyGraph() {
         var vertices = [], edges = {};
 
@@ -32,6 +34,21 @@ TestCase {
 
         compare(graph.vertices(), vertices, "graph.vertices() = []");
         compare(graph.edges(), edges, "graph.edges() = {]");
+    }
+
+    function test_addVertex_AddingVertices_Success() {
+        var vertexA = new Graphs.Vertex(1, 1);
+//            vertexB = new Graphs.Vertex(5, 10);
+
+        var digraph = new Graphs.EdgeWeightedDigraph();
+
+        digraph.addVertex(vertexA);
+//        digraph.addVertex(vertexB);
+
+        var comp = digraph.vertices().indexOf(vertexA) !== -1 &&
+               vertexA.id in digraph.edges();
+
+        compare(comp, true, "digraph contains vertexA");
     }
 
 }
