@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>graphs.js</file>
+        <file>wrong.svg</file>
+    </qresource>
+</RCC>
