@@ -111,5 +111,44 @@ TestCase {
         }
     }
 
+    function test_dijkstra_NonExistingVertexInGraphThrows_NoSuchVertexInGraphError() {
+        try {
+            var graph = createTestGraph();
+            var idVertex = 4;
+            var result = Graphs.dijkstra(idVertex, graph);
+            fail("\n\tNoSuchVertexInGraphError wasn't thrown");
+        } catch(error) {
+            compare(error instanceof Graphs.NoSuchVertexInGraphError, true, "error is not instance of NoSuchVertexInGraphError ");
+        }
+    }
+
+    function createTestGraphNegWeight() {
+        var graph = new Graphs.EdgeWeightedDigraph();
+        var vertA = new Graphs.Vertex(1, 1),
+            vertB = new Graphs.Vertex(2, 2),
+            vertC = new Graphs.Vertex(3, 3);
+        graph.addVertex(vertA);
+        graph.addVertex(vertB);
+        graph.addVertex(vertC);
+        graph.addEdge(new Graphs.DirectedWeightedEdge(vertA.id(), vertB.id(), 5));
+        graph.addEdge(new Graphs.DirectedWeightedEdge(vertB.id(), vertC.id(), -6));
+
+        graph.addEdge(new Graphs.DirectedWeightedEdge(vertA.id(), vertC.id(), 7));
+
+//        graph.addVertex();
+        return graph;
+    }
+
+    function test_dijkstra_NegWeight_ThrowsNegativeWeightInDijkstraAlgError() {
+        try {
+            var graph = createTestGraphNegWeight();
+            var idVertex = 2;
+            var result = Graphs.dijkstra(idVertex, graph);
+            fail("\n\tNegativeWeightInDijkstraAlgErroro wasn't thrown");
+        } catch(error) {
+            compare(error instanceof Graphs.NegativeWeightInDijkstraAlgError, true, "error is not instance of NegativeWeightInDijkstraAlgError");
+        }
+    }
+
 }
 

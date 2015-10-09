@@ -43,6 +43,14 @@ function GraphContainsEdgeError(edge) {
 GraphContainsEdgeError.prototype = new AppError();
 GraphContainsEdgeError.prototype.constructor = GraphContainsEdgeError;
 
+function NegativeWeightInDijkstraAlgError(edge) {
+    this.message = "There is negative weight of edge";
+    this.name = "NegativeWeightInDijkstraAlgError";
+}
+
+NegativeWeightInDijkstraAlgError.protorype = new AppError();
+NegativeWeightInDijkstraAlgError.prototype.constructor = NegativeWeightInDijkstraAlgError;
+
 function EdgeWeightedDigraph() {
     var __vertices = [];
     var __edges = {};
@@ -132,6 +140,8 @@ function keyOfMin(dict) {
 }
 
 function dijkstra(vertexId, graph) {
+    if (!graph.containsVertexId(vertexId))
+        throw new NoSuchVertexInGraphError(vertexId);
     var vertexSet = {}, countOfVertexInSet = 0,
         graphVertices = graph.vertices(),
         vertCount = graph.vertices().length,
@@ -156,6 +166,8 @@ function dijkstra(vertexId, graph) {
         for (i=0; i<neighborEdges.length; ++i) {
             var edge = neighborEdges[i];
 //            return dist[idVertWithMinDist];
+            if (edge.weight() < 0)
+                throw new NegativeWeightInDijkstraAlgError();
             var alt = dist[idVertWithMinDist] + edge.weight();
             var toVertId = edge.to();
             if (alt < dist[toVertId]) {
