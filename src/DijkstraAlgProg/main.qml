@@ -49,11 +49,11 @@ ApplicationWindow {
             onFileChosen: {
                 var filename = fileDialog.fileUrl;
                 var content = fileOperator.read(filename);
-               try {
+//               try {
                     graph = IoGraphs.loadGraphFromJson(content);
-                } catch(error) {
-                    console.log(error);
-                }
+//                } catch(error) {
+//                    console.log(error);
+//                }
             }
         }
 

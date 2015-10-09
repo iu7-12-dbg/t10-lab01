@@ -19,16 +19,16 @@ function AppError() {
     }
 }
 
-function GraphContainsVertexError(vertex) {
-    this.message = "Graph contains vertex";
+function GraphContainsVertexError(vertexId) {
+    this.message = "Graph contains vertex {" + vertexId + "}";
     this.name = "GraphContainsVertexError";
 }
 
 GraphContainsVertexError.prototype = new AppError();
 GraphContainsVertexError.prototype.constructor = GraphContainsVertexError;
 
-function NoSuchVertexInGraphError(vertex) {
-    this.message = "There is no such vertex in graph";
+function NoSuchVertexInGraphError(vertexId) {
+    this.message = "There is no such vertex in graph {" + vertexId + "}";
     this.name = "NoSuchVertexInGraphError";
 }
 
@@ -36,7 +36,7 @@ NoSuchVertexInGraphError.prototype = new AppError();
 NoSuchVertexInGraphError.prototype.constructor = NoSuchVertexInGraphError;
 
 function GraphContainsEdgeError(edge) {
-    this.message = "Graph contains edge";
+    this.message = "Graph contains edge {" + edge.from() + ", " + edge.to() + ", " + edge.weight() + "}";
     this.name = "GraphContainsEdgeError";
 }
 
@@ -82,16 +82,19 @@ function EdgeWeightedDigraph() {
 
     this.addVertex = function (vertex) {
         if (this.containsVertex(vertex))
-            throw new GraphContainsVertexError();
+            throw new GraphContainsVertexError(vertex.id());
         __vertices.push(vertex);
         __edges[vertex.id()] = [];
     }
 
     this.addEdge = function(edge) {
-        if (!(this.containsVertexId(edge.from()) && this.containsVertexId(edge.to())))
-            throw new NoSuchVertexInGraphError();
+        if (!this.containsVertexId(edge.from()))
+            throw new NoSuchVertexInGraphError(edge.from());
+        if (!this.containsVertexId(edge.to()))
+            throw new NoSuchVertexInGraphError(edge.to());
+
         if (this.containsEdge(edge))
-            throw new GraphContainsEdgeError();
+            throw new GraphContainsEdgeError(edge);
         __edges[edge.from()].push(edge);
     }
 
