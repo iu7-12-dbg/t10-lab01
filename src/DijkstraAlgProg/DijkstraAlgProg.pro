@@ -23,3 +23,6 @@ HEADERS += \
     customtypesregistrar.h \
     FileOperator.h \
     launcher.h
+
+DISTFILES += \
+    graph.json

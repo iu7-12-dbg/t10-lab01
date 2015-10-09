@@ -1,9 +1,11 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.2
 
 import "graphs.js" as Graphs
-import QtQuick.Layouts 1.2
+import "iographs.js" as IoGraphs
+import com.alex.qmlcomponents 1.0
 
 ApplicationWindow {
     visible: true
@@ -11,7 +13,15 @@ ApplicationWindow {
     height: 768
     title: qsTr("Dijkstra's algorithm")
 
+    property variant graph
 
+    FileOperator {
+        id: fileOperator
+    }
+
+    Launcher {
+        id: launcher
+    }
 
     ColumnLayout {
         id: columnLayout
@@ -38,12 +48,14 @@ ApplicationWindow {
 
             onFileChosen: {
                 var filename = fileDialog.fileUrl;
-                var content = qmlFile.read(filename);
-                var obj = JSON.parse(content);
-                console.log(content);
+                var content = fileOperator.read(filename);
+               try {
+                    graph = IoGraphs.loadGraphFromJson(content);
+                } catch(error) {
+                    console.log(error);
+                }
             }
         }
-        //        GroupBox {
 
         RowLayout {
             id: rowLayout
