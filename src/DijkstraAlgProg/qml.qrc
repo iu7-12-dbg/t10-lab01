@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>graphs.js</file>
         <file>wrong.svg</file>
+        <file>iographs.js</file>
     </qresource>
 </RCC>

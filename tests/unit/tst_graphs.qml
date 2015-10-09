@@ -10,7 +10,6 @@ TestCase {
         var id = 10, data = "string";
         try {
             var vertex = new Graphs.Vertex(id, data);
-            throw 10;
             compare(vertex.id(), id, "vertex.id() = id");
             compare(vertex.data(), data, "vertex.data() = data");
         } catch(error) {
@@ -47,11 +46,10 @@ TestCase {
             var digraph = new Graphs.EdgeWeightedDigraph();
 
             digraph.addVertex(vertexA);
+            var copyVertexA = new Graphs.Vertex(1, 1);
+            var comp = digraph.containsVertex(copyVertexA);
 
-            var comp = digraph.vertices().indexOf(vertexA) !== -1 &&
-                    vertexA.id in digraph.edges();
-
-            compare(comp, true, "digraph contains vertexA");
+            compare(comp, true, "added vertexA in digraph");
         } catch(error) {
             fail("\n\t" + error);
         }
@@ -59,9 +57,9 @@ TestCase {
 
     function test_addEdge_AddingEdgeWithExistingVertex_Succes() {
         try {
-            var vertexA = new Graphs.Vertex(1, 1),
-                    vertexB = new Graphs.Vertex(2, 2);
-            var edge = new Graphs.DirectedWeightedEdge(vertexA.id, vertexB.id, 100);
+            var vertexA = new Graphs.Vertex("1", 1),
+                    vertexB = new Graphs.Vertex("2", 2);
+            var edge = new Graphs.DirectedWeightedEdge(vertexA.id(), vertexB.id(), 100);
             var digraph = new Graphs.EdgeWeightedDigraph();
             digraph.addVertex(vertexA);
             digraph.addVertex(vertexB);
@@ -69,7 +67,7 @@ TestCase {
             digraph.addEdge(edge);
 
             var index = digraph.edges()[edge.from()].indexOf(edge);
-            compare(index !== -1, true, "digraph.edges contain edge");
+            compare(index !== -1, true, "digraph.edges contain edge " + index);
         } catch(error) {
             fail("\n\t" + error);
         }
@@ -77,16 +75,40 @@ TestCase {
 
     function createTestGraph() {
         var graph = new Graphs.EdgeWeightedDigraph();
-        graph.addVertex();
-        graph.addVertex();
-        graph.addVertex();
+        var vertA = new Graphs.Vertex(1, 1),
+            vertB = new Graphs.Vertex(2, 2),
+            vertC = new Graphs.Vertex(3, 3);
+        graph.addVertex(vertA);
+        graph.addVertex(vertB);
+        graph.addVertex(vertC);
+        graph.addEdge(new Graphs.DirectedWeightedEdge(vertA.id(), vertB.id(), 5));
+        graph.addEdge(new Graphs.DirectedWeightedEdge(vertB.id(), vertC.id(), 6));
+
+        graph.addEdge(new Graphs.DirectedWeightedEdge(vertA.id(), vertC.id(), 7));
+
+//        graph.addVertex();
         return graph;
     }
 
+    function getTestAnswer() {
+        var answer = {
+            "1": 0,
+            "2": 5,
+            "3": 7
+        };
+        return answer;
+    }
+
     function test_dijkstra_SmallGraphExistingVertex_ArrayOfMinDist() {
-        var graph = createTestGraph();
-        var idVertex = 1;
-        compare(true, true);
+        try {
+            var graph = createTestGraph();
+            var answer = getTestAnswer();
+            var idVertex = 1;
+            var result = Graphs.dijkstra(idVertex, graph);
+            compare(JSON.stringify(result), JSON.stringify(answer));
+        } catch(error) {
+            fail("\n\t" + error);
+        }
     }
 
 }
