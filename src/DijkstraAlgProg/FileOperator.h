@@ -9,8 +9,8 @@ class FileOperator : public QObject
     Q_OBJECT
 public:
     explicit FileOperator(QObject *parent = 0);
-    Q_INVOKABLE QString read(const QString &fileUrl);
-    Q_INVOKABLE void write(const QString &fileUrl, const QString &data);
+    Q_INVOKABLE QString read(const QUrl &fileUrl);
+    Q_INVOKABLE bool write(const QUrl &fileUrl, const QString &data);
 
 signals:
 

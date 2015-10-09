@@ -20,3 +20,18 @@ function loadGraphFromJson(jsonStr) {
     return graph;
 }
 
+function generateDotReprOfGraph(graph) {
+    var dotRepr = "digraph G {\n"
+    for (var vertId in graph.edges()) {
+        var edges = graph.edges()[vertId],
+            len = edges.length;
+        for (var i=0; i<len; ++i) {
+            var edge = edges[i];
+            dotRepr += "    " + edge.from() + " -> " + edge.to()
+                    + "[label=\"" + edge.weight() + "\"];\n"
+        }
+    }
+
+    dotRepr += "}";
+    return dotRepr;
+}

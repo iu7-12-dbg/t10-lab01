@@ -14,6 +14,10 @@ ApplicationWindow {
     title: qsTr("Dijkstra's algorithm")
 
     property variant graph
+    property string dotFilename: "graph.dot"
+    property string prefixUrl: "file:///C:/Users/Public/"
+    property string prefixLocal: "C:\\Users\\Public\\"
+    property string svgFilename: "graph.svg"
 
     FileOperator {
         id: fileOperator
@@ -49,11 +53,20 @@ ApplicationWindow {
             onFileChosen: {
                 var filename = fileDialog.fileUrl;
                 var content = fileOperator.read(filename);
-//               try {
-                    graph = IoGraphs.loadGraphFromJson(content);
-//                } catch(error) {
-//                    console.log(error);
-//                }
+               try {
+                   var locGraph = IoGraphs.loadGraphFromJson(content);
+                   var dotRepr = IoGraphs.generateDotReprOfGraph(locGraph);
+                   console.log(dotRepr);
+                   console.log(dotFilename);
+                   if (!fileOperator.write(prefixUrl + dotFilename, dotRepr))
+                       throw "Can not write to .dot file";
+                   launcher.launch("dot -Tsvg " + prefixLocal + dotFilename + " -o " + prefixLocal + svgFilename);
+                   image.source = prefixUrl + svgFilename;
+                   graph = locGraph;
+                   dijkstraAlgGroupBox.enabled = true;
+                } catch(error) {
+                    console.log(error);
+                }
             }
         }
 
