@@ -116,11 +116,29 @@ ApplicationWindow {
                     Button {
                         id: runDijkstraButton
                         text: qsTr("Run Dijkstra's algorithm")
+                        onClicked: {
+                            try {
+                                var vertexId = vertexIdTextField.text;
+                                if (graph.containsVertexId(vertexId)) {
+                                    var shortestPaths = Graphs.dijkstra(vertexId, graph);
+                                    var strRepr = "";
+                                    for (var pathId in shortestPaths) {
+                                        strRepr += vertexId + " -> " + pathId + " = " + shortestPaths[pathId] +  "\n";
+                                    }
+                                    dijkstraResultText.text = strRepr;
+                                } else
+                                    throw new Graphs.NoSuchVertexInGraphError(vertexId);
+                            } catch(error) {
+                                console.log(error);
+                                dijkstraResultText.text = error.toString();
+                            }
+
+                        }
                     }
 
                     Text {
                         id: dijkstraResultText
-                        text: qsTr("Text")
+                        text: qsTr("")
                         font.pixelSize: 12
                         //                    Layout.fillWidth: true
                         //                    Layout.fillHeight: true
