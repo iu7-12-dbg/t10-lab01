@@ -11,3 +11,4 @@ build*
 !*.qrc
 !*.pro
 !*.pri
+!*.json

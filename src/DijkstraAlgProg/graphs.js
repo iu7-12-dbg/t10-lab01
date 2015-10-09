@@ -126,11 +126,11 @@ function EdgeWeightedDigraph() {
 */
 }
 
-function keyOfMin(dict) {
+function keyOfMin(dict, dist) {
     var minVal = Number.POSITIVE_INFINITY;
     var minKey = -1;
     for (var key in dict) {
-        var curVal = dict[key];
+        var curVal = dist[key];
         if (curVal < minVal) {
             minVal = curVal;
             minKey = key;
@@ -157,7 +157,7 @@ function dijkstra(vertexId, graph) {
     }
     dist[vertexId] = 0;
     while (countOfVertexInSet > 0) {
-        var idVertWithMinDist = keyOfMin(dist);
+        var idVertWithMinDist = keyOfMin(vertexSet, dist);
 
         delete vertexSet[idVertWithMinDist];
         --countOfVertexInSet;
